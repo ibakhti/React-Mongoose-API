@@ -200,6 +200,26 @@ app.delete('/users', async(req, res) => {
     }
 })
 
+app.put('/users/update', async(req, res) => {
+    try {
+        if(!req.body.age){
+            user = await User.findByIdAndUpdate(req.body.id, {$set: {name: req.body.name}})
+            newUser = await User.findById(req.body.id)
+            res.status(200).send(newUser)
+        }else if (!req.body.name) {
+            user = await User.findByIdAndUpdate(req.body.id, {$set: {age: req.body.age}})
+            newUser = await User.findById(req.body.id)
+            res.status(200).send(newUser)
+        }else {
+            user = await User.findByIdAndUpdate(req.body.id, {$set: {name: req.body.name, age: req.body.age}})
+            newUser = await User.findById(req.body.id)
+            res.status(200).send(newUser)
+        }  
+    } catch (e) {
+        res.status(404).send('Error from app.put user/update ' + e)
+    }   
+})
+
 
 
 
